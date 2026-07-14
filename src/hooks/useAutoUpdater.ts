@@ -23,16 +23,14 @@ export function useAutoUpdater() {
 
     const offProgress = window.colorflow.updater.onProgress((p) => {
       setProgress(p);
-      if (p.phase === "checking" || p.phase === "connecting" || p.phase === "downloading") {
+      // N'ouvrir le dialog que pendant un téléchargement actif (après clic « Installer »)
+      if (p.phase === "connecting" || p.phase === "downloading") {
         setState("downloading");
         setOpen(true);
       }
       if (p.phase === "ready") {
         setState("ready");
-      }
-      if (p.phase === "idle" && p.message === "upToDate") {
-        setState("closed");
-        setOpen(false);
+        setOpen(true);
       }
     });
 

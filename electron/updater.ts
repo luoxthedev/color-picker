@@ -81,17 +81,14 @@ export async function checkForUpdates(manual = false): Promise<UpdateInfo | null
   const updateStore = store.get("update");
   const dismissedVersion = updateStore.dismissedVersion;
 
-  emitProgress({ phase: "checking", percent: 0, message: "checking" });
-
   try {
     const release = await fetchLatestRelease();
     if (!release) return null;
 
     const version = parseReleaseTag(release.tag_name);
+
+    // Pas de mise à jour si la release GitHub est <= version installée
     if (compareSemver(version, currentVersion) <= 0) {
-      if (manual) {
-        emitProgress({ phase: "idle", percent: 0, message: "upToDate" });
-      }
       store.set("update", { ...updateStore, lastCheckAt: Date.now() });
       return null;
     }
