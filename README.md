@@ -169,7 +169,3 @@ Configuration dans `package.json` (`"build"`) :
 | `Ctrl+K`                     | Recherche globale                 |
 | `Échap`                      | Annuler la pipette / fermer un panneau |
 | `Entrée`                      | Valider un champ HEX              |
-
----
-
-Projet généré comme une application desktop complète et prête à distribuer — pas un prototype.
