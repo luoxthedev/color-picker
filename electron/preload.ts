@@ -5,6 +5,11 @@ import {
   type PickerWindowInitPayload,
   type StoreKey,
   type StoreSchema,
+  type UpdateCheckResult,
+  type UpdateErrorPayload,
+  type UpdateInfo,
+  type UpdateProgress,
+  type UpdateReadyPayload,
   type WindowStatePayload,
 } from "../shared/types.js";
 import type { ColorFlowApi } from "../shared/preloadApi.js";
@@ -88,6 +93,22 @@ const colorflowApi: ColorFlowApi = {
   app: {
     quit: () => ipcRenderer.send(IpcChannels.AppQuit),
     getVersion: (): Promise<string> => ipcRenderer.invoke(IpcChannels.AppGetVersion),
+  },
+
+  updater: {
+    check: (): Promise<UpdateCheckResult> => ipcRenderer.invoke(IpcChannels.UpdaterCheck),
+    download: (): Promise<string | null> => ipcRenderer.invoke(IpcChannels.UpdaterDownload),
+    install: (): Promise<void> => ipcRenderer.invoke(IpcChannels.UpdaterInstall),
+    dismiss: (version: string) => ipcRenderer.send(IpcChannels.UpdaterDismiss, version),
+    openRelease: () => ipcRenderer.send(IpcChannels.UpdaterOpenRelease),
+    onAvailable: (cb: (info: UpdateInfo) => void) =>
+      on<UpdateInfo>(IpcChannels.UpdaterOnAvailable, cb),
+    onProgress: (cb: (progress: UpdateProgress) => void) =>
+      on<UpdateProgress>(IpcChannels.UpdaterOnProgress, cb),
+    onReady: (cb: (payload: UpdateReadyPayload) => void) =>
+      on<UpdateReadyPayload>(IpcChannels.UpdaterOnReady, cb),
+    onError: (cb: (payload: UpdateErrorPayload) => void) =>
+      on<UpdateErrorPayload>(IpcChannels.UpdaterOnError, cb),
   },
 };
 

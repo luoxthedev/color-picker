@@ -19,6 +19,7 @@ export const store = new Store<StoreSchema>({
         createdAt: Date.now(),
       },
     ],
+    update: {},
   },
   clearInvalidConfig: true,
 });

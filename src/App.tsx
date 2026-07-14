@@ -6,6 +6,7 @@ import { usePickerBridge } from "@/hooks/usePickerBridge";
 import { useAnimationsEnabled } from "@/hooks/useAnimations";
 import { AppShell } from "@/components/layout/AppShell";
 import { SplashScreen } from "@/components/layout/SplashScreen";
+import { AutoUpdaterProvider } from "@/components/updater/AutoUpdaterProvider";
 import { TooltipProvider } from "@/components/ui/Tooltip";
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
         <AnimatePresence mode="wait">
           {isHydrated ? <AppShell key="app" /> : <SplashScreen key="splash" />}
         </AnimatePresence>
+        <AutoUpdaterProvider />
       </TooltipProvider>
     </MotionConfig>
   );

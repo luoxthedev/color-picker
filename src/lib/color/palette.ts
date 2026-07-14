@@ -1,5 +1,4 @@
 import type { GeneratedPalette, HSL, PaletteHarmony } from "@shared/types";
-import { nanoid } from "nanoid";
 import { hexToRgb, hslToRgb, rgbToHex, rgbToHsl } from "./convert";
 
 const wrapHue = (h: number): number => ((h % 360) + 360) % 360;
@@ -95,7 +94,7 @@ export const HARMONY_LABELS: Record<PaletteHarmony, string> = {
 export function generatePalette(baseHex: string, harmony: PaletteHarmony): GeneratedPalette {
   const baseHsl = rgbToHsl(hexToRgb(baseHex));
   const colors = HARMONY_BUILDERS[harmony](baseHsl);
-  return { id: nanoid(8), harmony, baseHex, colors };
+  return { id: harmony, harmony, baseHex, colors };
 }
 
 export function generateAllPalettes(baseHex: string): GeneratedPalette[] {

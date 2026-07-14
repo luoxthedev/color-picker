@@ -49,7 +49,7 @@ export function PalettesPage() {
         className="grid grid-cols-2 gap-4"
       >
         {palettes.map((palette) => (
-          <PaletteCard key={palette.id} palette={palette} onExportPng={handleExportPng} />
+          <PaletteCard key={palette.harmony} palette={palette} onExportPng={handleExportPng} />
         ))}
       </motion.div>
     </div>

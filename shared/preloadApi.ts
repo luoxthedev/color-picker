@@ -9,6 +9,11 @@ import type {
   PickerWindowInitPayload,
   StoreKey,
   StoreSchema,
+  UpdateCheckResult,
+  UpdateErrorPayload,
+  UpdateInfo,
+  UpdateProgress,
+  UpdateReadyPayload,
   WindowStatePayload,
 } from "./types";
 
@@ -63,6 +68,17 @@ export interface ColorFlowApi {
   app: {
     quit: () => void;
     getVersion: () => Promise<string>;
+  };
+  updater: {
+    check: () => Promise<UpdateCheckResult>;
+    download: () => Promise<string | null>;
+    install: () => Promise<void>;
+    dismiss: (version: string) => void;
+    openRelease: () => void;
+    onAvailable: (cb: (info: UpdateInfo) => void) => Unsubscribe;
+    onProgress: (cb: (progress: UpdateProgress) => void) => Unsubscribe;
+    onReady: (cb: (payload: UpdateReadyPayload) => void) => Unsubscribe;
+    onError: (cb: (payload: UpdateErrorPayload) => void) => Unsubscribe;
   };
 }
 

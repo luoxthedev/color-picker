@@ -7,6 +7,7 @@ const FALLBACK_DEFAULTS: StoreSchema = {
   history: [],
   favorites: [],
   collections: [{ id: "default", name: "Favoris", createdAt: Date.now() }],
+  update: {},
 };
 
 const LOCAL_KEY_PREFIX = "colorflow:";

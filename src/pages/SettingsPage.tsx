@@ -1,6 +1,8 @@
-﻿import { GlassCard } from "@/components/ui/GlassCard";
+﻿import { useEffect, useState } from "react";
+import { GlassCard } from "@/components/ui/GlassCard";
 import { Switch } from "@/components/ui/Switch";
 import { Select } from "@/components/ui/Select";
+import { Button } from "@/components/ui/Button";
 import { ShortcutRecorder } from "@/components/settings/ShortcutRecorder";
 import { useAppStore } from "@/state/appStore";
 import { useI18n } from "@/hooks/useI18n";
@@ -32,6 +34,27 @@ export function SettingsPage() {
   const updateSettings = useAppStore((s) => s.updateSettings);
   const notify = useAppStore((s) => s.notify);
   const t = useI18n();
+  const [version, setVersion] = useState(__APP_VERSION__);
+  const [checkingUpdate, setCheckingUpdate] = useState(false);
+
+  useEffect(() => {
+    if (isElectron()) void window.colorflow.app.getVersion().then(setVersion);
+  }, []);
+
+  const handleCheckUpdates = async () => {
+    if (!isElectron()) return;
+    setCheckingUpdate(true);
+    try {
+      const result = await window.colorflow.updater.check();
+      if (result.status === "upToDate") {
+        notify(t.updater.upToDate, "success");
+      } else if (result.status === "error") {
+        notify(result.message, "warning");
+      }
+    } finally {
+      setCheckingUpdate(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 pb-8">
@@ -167,6 +190,28 @@ export function SettingsPage() {
           />
         </div>
       </GlassCard>
+
+      {isElectron() && (
+        <GlassCard className="p-4">
+          <h3 className="mb-1 text-[13px] font-semibold text-[color:var(--text-primary)]">{t.updater.updates}</h3>
+          <div className="divide-y divide-[color:var(--panel-border)]">
+            <SettingRow
+              title={t.updater.currentVersion}
+              description={`v${version}`}
+              control={
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={checkingUpdate}
+                  onClick={() => void handleCheckUpdates()}
+                >
+                  {checkingUpdate ? t.updater.checkingManual : t.updater.checkForUpdates}
+                </Button>
+              }
+            />
+          </div>
+        </GlassCard>
+      )}
     </div>
   );
 }

@@ -55,7 +55,7 @@ export function AppShell() {
         <div className="flex flex-1 overflow-hidden">
           <Sidebar />
           <main className="flex-1 overflow-y-auto px-8 py-6">
-            <AnimatePresence mode="wait">
+            <AnimatePresence initial={false}>
               <motion.div
                 key={activePage}
                 initial={animationsEnabled ? { opacity: 0, y: 10 } : false}

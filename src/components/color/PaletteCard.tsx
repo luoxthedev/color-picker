@@ -35,7 +35,6 @@ export function PaletteCard({ palette, onExportPng }: PaletteCardProps) {
 
   return (
     <motion.div
-      layout
       initial={{ opacity: 0, y: 14, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ type: "spring", stiffness: 320, damping: 26 }}

@@ -161,6 +161,48 @@ export interface WindowStatePayload {
   isMinimized: boolean;
 }
 
+export interface UpdateStoreState {
+  dismissedVersion?: string;
+  lastCheckAt?: number;
+}
+
+export type UpdatePhase = "idle" | "checking" | "connecting" | "downloading" | "ready" | "error";
+
+export interface UpdateInfo {
+  version: string;
+  currentVersion: string;
+  releaseNotes: string;
+  releaseUrl: string;
+  downloadUrl: string;
+  assetName: string;
+  assetSize: number;
+  isPortable: boolean;
+}
+
+export interface UpdateProgress {
+  phase: UpdatePhase;
+  percent: number;
+  message: string;
+  version?: string;
+  bytesReceived?: number;
+  totalBytes?: number;
+}
+
+export interface UpdateReadyPayload {
+  filePath: string;
+  version: string;
+  isPortable: boolean;
+}
+
+export interface UpdateErrorPayload {
+  message: string;
+}
+
+export type UpdateCheckResult =
+  | { status: "available"; info: UpdateInfo }
+  | { status: "upToDate" }
+  | { status: "error"; message: string };
+
 /** Canaux IPC exposés par le preload — une seule source de vérité pour éviter les typos. */
 export const IpcChannels = {
   // Fenêtre
@@ -203,6 +245,17 @@ export const IpcChannels = {
   // Tray / cycle de vie
   AppQuit: "app:quit",
   AppGetVersion: "app:get-version",
+
+  // Mises à jour
+  UpdaterCheck: "updater:check",
+  UpdaterDownload: "updater:download",
+  UpdaterInstall: "updater:install",
+  UpdaterDismiss: "updater:dismiss",
+  UpdaterOpenRelease: "updater:open-release",
+  UpdaterOnAvailable: "updater:on-available",
+  UpdaterOnProgress: "updater:on-progress",
+  UpdaterOnReady: "updater:on-ready",
+  UpdaterOnError: "updater:on-error",
 } as const;
 
 export type IpcChannel = (typeof IpcChannels)[keyof typeof IpcChannels];
@@ -212,6 +265,7 @@ export interface StoreSchema {
   history: HistoryEntry[];
   favorites: FavoriteColor[];
   collections: FavoriteCollection[];
+  update: UpdateStoreState;
 }
 
 export type StoreKey = keyof StoreSchema;

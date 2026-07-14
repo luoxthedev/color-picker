@@ -6,6 +6,13 @@ import { cancelPicker, confirmPicker, getPickerInitForWebContents, startPicker }
 import { registerPickerShortcut } from "./shortcuts.js";
 import { setAutostart, getAutostart } from "./autostart.js";
 import { getMainWindow } from "./windows/mainWindow.js";
+import {
+  checkForUpdates,
+  dismissUpdate,
+  downloadUpdate,
+  installUpdate,
+  openReleasePage,
+} from "./updater.js";
 
 function broadcastStoreChange<K extends StoreKey>(key: K, value: StoreSchema[K]): void {
   for (const win of BrowserWindow.getAllWindows()) {
@@ -118,4 +125,16 @@ export function registerIpcHandlers(): void {
   // Cycle de vie
   ipcMain.handle(IpcChannels.AppGetVersion, () => app.getVersion());
   ipcMain.on(IpcChannels.AppQuit, () => app.quit());
+
+  // Mises à jour
+  ipcMain.handle(IpcChannels.UpdaterCheck, async () => {
+    const info = await checkForUpdates(true);
+    if (info) return { status: "available" as const, info };
+    return { status: "upToDate" as const };
+  });
+
+  ipcMain.handle(IpcChannels.UpdaterDownload, () => downloadUpdate());
+  ipcMain.handle(IpcChannels.UpdaterInstall, () => installUpdate());
+  ipcMain.on(IpcChannels.UpdaterDismiss, (_event, version: string) => dismissUpdate(version));
+  ipcMain.on(IpcChannels.UpdaterOpenRelease, () => openReleasePage());
 }

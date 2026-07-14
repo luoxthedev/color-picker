@@ -6,6 +6,7 @@ import { registerPickerShortcut, unregisterAllShortcuts } from "./shortcuts.js";
 import { store } from "./store.js";
 import { setAutostart } from "./autostart.js";
 import { setQuitting } from "./appState.js";
+import { initUpdater } from "./updater.js";
 
 // Une seule instance de l'application à la fois : les lancements suivants
 // se contentent de réveiller la fenêtre existante.
@@ -29,6 +30,7 @@ if (!gotSingleInstanceLock) {
     const { pickerShortcut, launchAtStartup } = store.get("settings");
     registerPickerShortcut(pickerShortcut);
     setAutostart(launchAtStartup);
+    initUpdater();
 
     app.on("activate", () => {
       if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
