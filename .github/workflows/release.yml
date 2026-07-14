@@ -44,6 +44,5 @@ jobs:
             release/ColorFlow-Setup-*.exe
             release/ColorFlow-Setup-*.exe.blockmap
             release/ColorFlow-Portable-*.exe
-            release/ColorFlow-Portable-*.exe.blockmap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
