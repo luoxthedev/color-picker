@@ -1,6 +1,6 @@
 {
   "name": "colorflow",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "ColorFlow — Color picker professionnel pour Windows",
   "author": "ColorFlow",
   "license": "MIT",
@@ -21,9 +21,9 @@
     "preapp:dev": "npm run build:electron",
     "electron:wait": "wait-on tcp:5173 && cross-env NODE_ENV=development electron .",
     "pack": "npm run build && electron-builder --dir",
-    "dist": "npm run build && electron-builder --win nsis",
-    "dist:portable": "npm run build && electron-builder --win portable",
-    "dist:all": "npm run build && electron-builder --win nsis portable"
+    "dist": "npm run build && electron-builder --win nsis --publish never",
+    "dist:portable": "npm run build && electron-builder --win portable --publish never",
+    "dist:all": "npm run build && electron-builder --win nsis portable --publish never"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
@@ -71,6 +71,7 @@
     "productName": "ColorFlow",
     "copyright": "Copyright © 2026 ColorFlow",
     "asar": true,
+    "publish": null,
     "directories": {
       "output": "release",
       "buildResources": "build"

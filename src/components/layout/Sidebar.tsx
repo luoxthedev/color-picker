@@ -30,7 +30,7 @@ export function Sidebar() {
   const setActivePage = useUiStore((s) => s.setActivePage);
   const pickerShortcut = useAppStore((s) => s.settings.pickerShortcut);
   const t = useI18n();
-  const [version, setVersion] = useState("1.2.0");
+  const [version, setVersion] = useState(__APP_VERSION__);
 
   useEffect(() => {
     if (isElectron()) void window.colorflow.app.getVersion().then(setVersion);
