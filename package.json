@@ -99,7 +99,8 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "ColorFlow"
+      "shortcutName": "ColorFlow",
+      "differentialPackage": false
     },
     "portable": {
       "artifactName": "${productName}-Portable-${version}.${ext}"
