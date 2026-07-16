@@ -6,6 +6,7 @@ import { useI18n } from "@/hooks/useI18n";
 import { useAnimationsEnabled } from "@/hooks/useAnimations";
 import { useWindowState } from "@/hooks/useWindowState";
 import { Kbd } from "@/components/ui/Kbd";
+import appLogo from "@/assets/logo.png";
 
 export function TitleBar() {
   const openSearch = useUiStore((s) => s.openSearch);
@@ -29,7 +30,14 @@ export function TitleBar() {
   return (
     <div className="drag-region flex h-11 shrink-0 items-center justify-between border-b border-[color:var(--panel-border)] px-3">
       <div className="flex items-center gap-2 pl-1">
-        <div className="h-2.5 w-2.5 rounded-full bg-gradient-to-br from-indigo-400 via-pink-400 to-amber-300" />
+        <img
+          src={appLogo}
+          alt=""
+          width={18}
+          height={18}
+          className="h-[18px] w-[18px] select-none object-contain"
+          draggable={false}
+        />
         <span className="text-[13px] font-semibold tracking-tight text-[color:var(--text-primary)]">
           {t.appName}
         </span>

@@ -6,7 +6,7 @@ import { startPicker } from "./windows/pickerWindows.js";
 let tray: Tray | null = null;
 
 export function createTray(onQuit: () => void): Tray {
-  const iconPath = resourcePath("tray-icon-16@2x.png");
+  const iconPath = resourcePath("tray-icon-32.png");
   const icon = nativeImage.createFromPath(iconPath);
   tray = new Tray(icon);
   tray.setToolTip("ColorFlow — pipette et palettes de couleurs");

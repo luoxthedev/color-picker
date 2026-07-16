@@ -82,7 +82,8 @@ colorflow/
 │   ├── state/                  # appStore (données) / uiStore (navigation, éphémère)
 │   ├── lib/color/               # convert, formats, palette, contrast, names
 │   └── lib/export/              # export JSON/CSS/SCSS/Tailwind/PNG
-├── scripts/generate-icons.py   # Génère build/icon.ico + icônes du tray
+├── logo.png                    # Source unique du logo de l'application
+├── scripts/generate-icons.mjs  # Génère les icônes app + tray depuis logo.png
 ├── build/                      # Icônes utilisées par electron-builder
 ├── index.html / picker.html    # Points d'entrée Vite (fenêtre principale / pipette)
 └── vite.config.ts, tailwind.config.js, electron/tsconfig.json, tsconfig.json
@@ -133,8 +134,8 @@ npm run dist:portable    # release/ColorFlow-Portable-<version>.exe (portable)
 
 Configuration dans `package.json` (`"build"`) :
 
-- Icône multi-résolutions `build/icon.ico` (16 → 256 px), générée via
-  `python3 scripts/generate-icons.py` (nécessite `pip install Pillow`).
+- Icône multi-résolutions `build/icon.ico` (16 → 256 px), générée automatiquement
+  depuis `logo.png` via `node scripts/generate-icons.mjs`.
 - Cible `nsis` : installateur avec choix du dossier d'installation, raccourcis
   Bureau/Menu Démarrer.
 - Cible `portable` : exécutable unique, aucune installation requise.
